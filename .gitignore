@@ -1,0 +1,42 @@
+# Package related files
+reports/
+
+# Python
+*.pyc
+
+# Documentation
+.build
+.static
+doc/html
+doc/manifest.yaml
+
+# Autosaved files
+*~
+*.bak
+
+# ROS
+/build
+/devel
+/logs
+/install
+
+# IDEs
+*.idea
+*.sublime-*
+*.vscode
+*.kdev4
+*.creator
+*.user
+*.files
+*.includes
+*.config
+
+# Catkin
+.catkin_tools
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# Gtest
+/test_results
