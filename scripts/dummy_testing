@@ -1,0 +1,55 @@
+#!/usr/bin/python
+
+import argparse
+import os
+import signal
+import robot
+
+from example_robot_framework import utils
+
+if __name__ == '__main__':
+    # Define arguments
+    parser = argparse.ArgumentParser(description='Validate that math makes sense')
+    #
+    parser.add_argument('--reports-path', type=str, default=os.path.join(os.curdir, "reports"), action='store', help='Directory where the reports will be saved')
+    #
+    parser_required = parser.add_argument_group('required arguments')
+    parser_required.add_argument('--first-number', type=int, help='the first number in the product')
+    parser_required.add_argument('--second-number', type=int, help='the second number in the product')
+    parser_required.add_argument('--expected-result', type=int, help='The expected result of the product of the first and the second numbers', required=True)
+    #
+    args = parser.parse_args()
+
+    # Find the test file
+    package_path = os.path.dirname(os.path.realpath(__file__))
+    tests_path = os.path.join(package_path, "../tests")
+    dummy_test = os.path.join(tests_path, "dummy.robot")
+
+    signal.signal(signal.SIGINT, utils.signal_handler)
+    try:
+        robot.run(
+            dummy_test,
+            test="Check the product of two numbers",
+            name="Testing the product of the user-given numbers",
+            log='NONE',
+            outputdir=args.reports_path,
+            variable=[
+                "num_a:{:d}".format(args.first_number),
+                "num_b:{:d}".format(args.second_number),
+                "product_ab:{:d}".format(args.expected_result)
+            ],
+            timestampoutputs=True
+        )
+        print("")
+        robot.run(
+            dummy_test,
+            test="Check the product of two numbers",
+            name="Testing the product of the default test numbers",
+            log='NONE',
+            outputdir=args.reports_path,
+            timestampoutputs=True
+        )
+    except KeyboardInterrupt:
+        print("Interrupted by the user")
+    except Exception as ex:
+        print("Interrupted by an exception: {}".format(ex))
