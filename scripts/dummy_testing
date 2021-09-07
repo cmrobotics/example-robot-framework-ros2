@@ -14,8 +14,8 @@ if __name__ == '__main__':
     parser.add_argument('--reports-path', type=str, default=os.path.join(os.curdir, "reports"), action='store', help='Directory where the reports will be saved')
     #
     parser_required = parser.add_argument_group('required arguments')
-    parser_required.add_argument('--first-number', type=int, help='the first number in the product')
-    parser_required.add_argument('--second-number', type=int, help='the second number in the product')
+    parser_required.add_argument('--first-number', type=int, help='the first number in the product', required=True)
+    parser_required.add_argument('--second-number', type=int, help='the second number in the product', required=True)
     parser_required.add_argument('--expected-result', type=int, help='The expected result of the product of the first and the second numbers', required=True)
     #
     args = parser.parse_args()
