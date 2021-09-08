@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     An example on how to use ROS2 with Robot Framework
-Library           ../libraries/ExampleLibrary.py
+Library           ../translations/ExampleLibrary.py
 Test Setup       Setup actions
 Test Teardown    Teardown actions
 
