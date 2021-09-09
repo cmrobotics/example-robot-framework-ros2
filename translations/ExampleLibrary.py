@@ -33,8 +33,8 @@ class ExampleLibrary(object):
             moved = self.ros_velocity_node.has_moved()
             if moved is True:
                 return True
-            print("The robot did not moved - moved is {:s}. Spinning ROS with a 0.1 timeout...".format(str(moved)))
-            rclpy.spin_once(self.ros_velocity_node, timeout_sec=0.1)
+            print("The robot did not move - moved is {:s}. I'll give it some time and try again".format(str(moved)))
+            sleep(0.1)
 
         raise Exception("The robot has not moved when it should have")
 
@@ -43,10 +43,3 @@ class ExampleLibrary(object):
     
     def teardown(self):
         self.ros_velocity_node.teardown()
-
-    # def subscribing_to_a_topic(self):
-    #     self.ros_example_script.cmd_vel_listener_callback()
-
-
-    # def call_a_service(self):
-    # def call_an_action_client(self):

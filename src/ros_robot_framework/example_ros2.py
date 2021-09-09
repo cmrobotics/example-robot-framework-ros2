@@ -3,8 +3,10 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 
+from ros_robot_framework import SelfSpinningNode
 
-class ExampleVelocityNode(Node):
+
+class ExampleVelocityNode(SelfSpinningNode):
     def __init__(self):
         super().__init__('robot_framework_node')
         timer_period = 0.5  # seconds
@@ -34,6 +36,7 @@ class ExampleVelocityNode(Node):
     def setup(self):
         self.cmd_vel_publisher = self.create_publisher(Twist, 'cmd_vel', 10)
         self.cmd_vel_subscription = self.create_subscription(Twist, 'robot_twist', self.cmd_vel_listener_callback, 10)
+        self.start_spinning()
 
     def teardown(self):
         pass
