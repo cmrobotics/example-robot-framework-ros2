@@ -1,34 +1,29 @@
 import time
 import rclpy
 from rclpy.node import Node
+import threading
 
 from std_msgs.msg import String
 
 
 class SelfSpinningNode(Node):
-
-    def __init__(self, name, period=0.1):
+    def __init__(self, name):
         super().__init__(name)
-        self.__period = period
-        self.__timer_spin = self.create_timer(period, self.__spin_callback)
-        rclpy.spin_once(self, timeout_sec=self.__period)
-        print('Timer created')
+        self.executor_ = rclpy.executors.SingleThreadedExecutor()
+        self.executor_.add_node(self)
+        self.executor_thread_ = threading.Thread(target=self.executor_.spin, daemon=True)
 
-    def __spin_callback(self):
-        # Multiplying the expected period by an arbitrary constant
-        # smaller than 1 to avoid missing the desired spin period.
-        # I chose 0.618 because I like the golden ratio.
-        rclpy.spin(self)
-
+    def start_spinning(self):
+        self.executor_thread_.start()
 
 class MinimalTalker(SelfSpinningNode):
 
     def __init__(self):
         super().__init__('minimal_talker')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
-        self.subscriber_ = self.create_subscription(String, 'hello', self.hello_callback, 10)
         self.i = 0
         self.timer = None
+        self.publisher_ = None
+        self.subscriber_ = None
 
     def run_timer(self):
         timer_period = 0.5  # seconds
@@ -44,6 +39,11 @@ class MinimalTalker(SelfSpinningNode):
     def hello_callback(self, msg):
         self.get_logger().info('I have just received: {:s}'.format(msg.data))
 
+    def setup(self):
+        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        self.subscriber_ = self.create_subscription(String, 'hello', self.hello_callback, 10)
+        self.start_spinning()
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -51,6 +51,7 @@ def main(args=None):
     instance_self_spinning = SelfSpinningNode('self_spinning')
 
     minimal_talker = MinimalTalker()
+    minimal_talker.setup()
     minimal_talker.publish_data()
     minimal_talker.publish_data()
 
