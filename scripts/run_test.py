@@ -25,3 +25,5 @@ if __name__ == '__main__':
         print("Interrupted by the user")
     except Exception as ex:
         print("Interrupted by an exception: {}".format(ex))
+    finally:
+        rclpy.shutdown()
