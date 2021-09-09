@@ -12,3 +12,6 @@ class SelfSpinningNode(Node):
 
     def start_spinning(self):
         self.executor_thread_.start()
+
+    def stop_spinning(self):
+        self.executor_.shutdown()

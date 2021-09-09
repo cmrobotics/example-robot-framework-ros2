@@ -39,4 +39,5 @@ class ExampleVelocityNode(SelfSpinningNode):
         self.start_spinning()
 
     def teardown(self):
-        pass
+        self.stop_spinning()
+        self.destroy_node()
