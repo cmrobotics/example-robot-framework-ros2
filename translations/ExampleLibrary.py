@@ -1,6 +1,6 @@
 from time import time, sleep
 from example_calculations import all_calculations
-from ros_example.ros_robot_framework import example_ros2
+from ros_robot_framework import ExampleVelocityNode
 import rclpy
 
 
@@ -8,7 +8,7 @@ class ExampleLibrary(object):
     
     def __init__(self):
         self.all_calculations = all_calculations.Calculations()
-        self.ros_velocity_node = example_ros2.ExampleVelocityNode()
+        self.ros_velocity_node = ExampleVelocityNode()
 
     def check_that_addition_is_larger_than_threshold(self, a, b, threshold):
 

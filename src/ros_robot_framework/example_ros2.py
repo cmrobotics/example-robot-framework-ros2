@@ -7,6 +7,8 @@ from geometry_msgs.msg import Twist
 class ExampleVelocityNode(Node):
     def __init__(self):
         super().__init__('robot_framework_node')
+        timer_period = 0.5  # seconds
+        # self.timer = self.create_timer(timer_period, self.cmd_vel_publisher_callback)
         self.__movement_detected = False
         self.__expecting_to_move = False
 
