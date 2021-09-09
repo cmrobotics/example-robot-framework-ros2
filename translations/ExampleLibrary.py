@@ -7,8 +7,7 @@ import rclpy
 class ExampleLibrary(object):
     
     def __init__(self):
-        self.all_calculations = all_calculations.Calculations()
-        self.ros_velocity_node = ExampleVelocityNode()
+        pass
 
     def check_that_addition_is_larger_than_threshold(self, a, b, threshold):
 
@@ -39,6 +38,8 @@ class ExampleLibrary(object):
         raise Exception("The robot has not moved when it should have")
 
     def setup(self):
+        self.all_calculations = all_calculations.Calculations()
+        self.ros_velocity_node = ExampleVelocityNode()
         self.ros_velocity_node.setup()
     
     def teardown(self):
