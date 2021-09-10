@@ -48,7 +48,7 @@ class MinimalTalker(SelfSpinningNode):
 def main(args=None):
     rclpy.init(args=args)
 
-    instance_self_spinning = SelfSpinningNode('self_spinning')
+    #instance_self_spinning = SelfSpinningNode('self_spinning')
 
     minimal_talker = MinimalTalker()
     minimal_talker.setup()
@@ -64,7 +64,7 @@ def main(args=None):
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
     minimal_talker.destroy_node()
-    instance_self_spinning.destroy_node()
+    #instance_self_spinning.destroy_node()
     rclpy.shutdown()
 
 

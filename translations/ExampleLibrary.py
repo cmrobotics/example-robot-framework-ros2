@@ -1,8 +1,6 @@
 from time import time, sleep
 from example_calculations import all_calculations
 from ros_robot_framework import ExampleVelocityNode
-import rclpy
-
 
 class ExampleLibrary(object):
     
