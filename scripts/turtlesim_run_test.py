@@ -15,7 +15,7 @@ if __name__ == '__main__':
         robot.run(
             dummy_test,
             test="Test that the turtle is moving, resetting and rotating",
-            name="Testing robot framework with a publisher, subscriber, service and action",
+            name="Test Robot Framework with a publisher, subscriber, service and action",
             #log='NONE',
             outputdir=os.path.join(os.curdir, "reports"),
             variable=[],

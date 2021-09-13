@@ -1,4 +1,5 @@
 import rclpy
+import threading
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from nav_msgs.msg import Odometry
@@ -8,7 +9,6 @@ from std_srvs.srv import Empty
 from turtlesim_robot_framework import SelfSpinningNode
 from turtlesim.action import RotateAbsolute
 
-import threading
 
 
 class TurtlesimExampleNode(SelfSpinningNode):
@@ -16,8 +16,6 @@ class TurtlesimExampleNode(SelfSpinningNode):
         super().__init__('robot_framework_turtlesim_node')
         self.__movement_detected = False
         self.__expecting_to_move = False
-        self.reset_succeeded = False
-        self.action_succeeded = False
         self.action_result = None
         self.action_result_condition = threading.Condition()
 
@@ -29,7 +27,7 @@ class TurtlesimExampleNode(SelfSpinningNode):
         self.__expecting_to_move = True
 
     def cmd_vel_listener_callback(self, pose_msg):
-        print("Pose received")
+        print("pose received")
         if self.__expecting_to_move is False:
             return
         self.__movement_detected = True
@@ -37,16 +35,26 @@ class TurtlesimExampleNode(SelfSpinningNode):
     def has_moved(self):
         return self.__movement_detected
 
-    def reset_turtle_service(self):
+    def reset_turtle_service(self, timeout=1.0):
+        print('reset turtle')
+        try:
+            service_request = Empty.Request()
+            while not self.reset_turtle_client.wait_for_service(timeout_sec=timeout):
+                print('service not available, waiting...')
+            self.reset_turtle_client.call(service_request)
+            return True
+        except:
+            return False
+
+    def reset_turtle_service_async(self, timeout=1.0):
         print('resetting turtle')
         try:
             service_request = Empty.Request()
-            while not self.reset_turtle_client.wait_for_service(timeout_sec=1.0):
+            while not self.reset_turtle_client.wait_for_service(timeout_sec=timeout):
                 print('service not available, waiting...')
-            self.reset_turtle_client.call_async(service_request)
-            self.reset_succeeded = True
+            return self.reset_turtle_client.call_async(service_request)
         except:
-            self.reset_succeeded = False
+            return None
 
     def rotate_turtle_action(self, theta):
         print('rotating turtle')
@@ -62,9 +70,9 @@ class TurtlesimExampleNode(SelfSpinningNode):
         print('goal response received')
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().info('Goal rejected :(')
+            self.get_logger().info('Goal rejected')
             return
-        self.get_logger().info('Goal accepted :)')
+        self.get_logger().info('Goal accepted')
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
@@ -73,7 +81,7 @@ class TurtlesimExampleNode(SelfSpinningNode):
         with self.action_result_condition:
             self.action_result = future.result().result
             self.get_logger().info('Result: {0}'.format(self.action_result))
-            self.action_result_condition.notify()
+            self.action_result_condition.notify()                                                      
 
     def feedback_callback(self, feedback_msg):
         print('goal feedback received')
@@ -81,11 +89,11 @@ class TurtlesimExampleNode(SelfSpinningNode):
         self.get_logger().info('Received feedback: {0}'.format(feedback))
 
     def wait_for_action_result(self, timeout=None):
-        with self.action_result_condition:
-            ret = self.action_result_condition.wait_for(self.result_available, timeout=timeout)
+        with self.action_result_condition:                                                              
+            ret = self.action_result_condition.wait_for(self.action_result_available, timeout=timeout) 
             return self.action_result if ret is True else None
 
-    def result_available(self):
+    def action_result_available(self):
         return self.action_result is not None
 
     def setup(self):

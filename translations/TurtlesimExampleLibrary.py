@@ -6,7 +6,7 @@ class TurtlesimExampleLibrary(object):
     def __init__(self):
         pass
 
-    def that_a_velocity_command_is_published_to_the_turtle(self, vel,  timeout=5.0):
+    def that_a_velocity_command_is_published_to_the_turtle(self, vel,  timeout=4.0):
         vel = float(vel)
         timeout_at = time() + timeout
         while (time() < timeout_at):
@@ -20,14 +20,26 @@ class TurtlesimExampleLibrary(object):
             moved = self.ros_turtlesim_node.has_moved()
             if moved is True:
                 return True
-            print("The robot did not move - moved is {:s}. I'll give it some time and try again".format(str(moved)))
             sleep(0.1)
 
     def send_a_service_call_to_reset_the_turtle(self, timeout=5.0):
-        self.ros_turtlesim_node.reset_turtle_service()
-        reset_completed = self.ros_turtlesim_node.reset_succeeded
+        reset_completed = self.ros_turtlesim_node.reset_turtle_service(timeout=timeout)
         if reset_completed is True:
-            sleep(0.1)
+            return True
+        else:
+            raise Exception("Resetting the turtle failed")
+
+    def send_an_async_service_call_to_reset_the_turtle(self, timeout=5.0):
+        future_res = self.ros_turtlesim_node.reset_turtle_service_async(timeout=timeout)
+        if future_res is not None:
+            now = time()
+            timeout_time = now + timeout
+            while not future_res.done() and now < timeout_time:
+                sleep(0.01)
+                print("Waiting for the service call to resolve itself...")
+                now = time()
+            if (now >= timeout_time):
+                raise Exception("Timed out while waiting for the service call to resolve itself")
             return True
         else:
             raise Exception("Resetting the turtle failed")
@@ -35,7 +47,7 @@ class TurtlesimExampleLibrary(object):
     def send_an_action_to_rotate_the_turtle(self, orientation):
         orientation = float(orientation)
         self.ros_turtlesim_node.rotate_turtle_action(orientation)
-        action_result = self.ros_turtlesim_node.wait_for_action_result(timeout=5)
+        action_result = self.ros_turtlesim_node.wait_for_action_result(timeout=10.0)
         if action_result is not None:
             return True
         else:
