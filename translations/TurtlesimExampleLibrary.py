@@ -27,15 +27,16 @@ class TurtlesimExampleLibrary(object):
         self.ros_turtlesim_node.reset_turtle_service()
         reset_completed = self.ros_turtlesim_node.reset_succeeded
         if reset_completed is True:
+            sleep(0.1)
             return True
         else:
             raise Exception("Resetting the turtle failed")
 
     def send_an_action_to_rotate_the_turtle(self, orientation):
         orientation = float(orientation)
-        rotation_action_client = self.ros_turtlesim_node.rotate_turtle_action(orientation)
-        action_completed = self.ros_turtlesim_node.action_sent
-        if action_completed is True:
+        self.ros_turtlesim_node.rotate_turtle_action(orientation)
+        action_result = self.ros_turtlesim_node.wait_for_action_result(timeout=5)
+        if action_result is not None:
             return True
         else:
             raise Exception("Rotating the turtle with an action failed")

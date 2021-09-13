@@ -78,7 +78,7 @@ class TurtlesimExampleNode(SelfSpinningNode):
     def feedback_callback(self, feedback_msg):
         print('goal feedback received')
         feedback = feedback_msg.feedback
-        self.get_logger().info('Received feedback: {0}'.format(feedback.partial_sequence))
+        self.get_logger().info('Received feedback: {0}'.format(feedback))
 
     def wait_for_action_result(self, timeout=None):
         with self.action_result_condition:

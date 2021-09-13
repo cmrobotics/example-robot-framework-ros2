@@ -13,7 +13,7 @@ Teardown actions
 
 *** Variables ***
 ${vel}                  0.4
-${orientation_rad}      1.57
+${orientation_rad}      2.57
 
 *** Test Cases ***
 
