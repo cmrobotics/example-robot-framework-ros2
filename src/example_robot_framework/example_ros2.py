@@ -3,7 +3,7 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 
-from ros_robot_framework import SelfSpinningNode
+from example_robot_framework import SelfSpinningNode
 
 
 class ExampleVelocityNode(SelfSpinningNode):

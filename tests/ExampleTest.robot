@@ -17,7 +17,7 @@ ${b}        2
 ${vel}      0.1
 
 *** Test Cases ***
-Do Calculations
+Check if number is larger than threshold
     given message    "hello"
     then check that addition is larger than threshold     1   1   1
 

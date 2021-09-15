@@ -1,6 +1,6 @@
 from time import time, sleep
-from example_calculations import all_calculations
-from ros_robot_framework import ExampleVelocityNode
+from example_robot_framework import all_calculations
+from example_robot_framework import ExampleVelocityNode
 
 class ExampleLibrary(object):
     

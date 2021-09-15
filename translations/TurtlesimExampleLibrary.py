@@ -1,8 +1,7 @@
 from time import time, sleep
-from turtlesim_robot_framework import TurtlesimExampleNode
+from example_robot_framework import TurtlesimExampleNode
 
 class TurtlesimExampleLibrary(object):
-    
     def __init__(self):
         pass
 
@@ -22,7 +21,7 @@ class TurtlesimExampleLibrary(object):
                 return True
             sleep(0.1)
 
-    def send_a_service_call_to_reset_the_turtle(self, timeout=5.0):
+    def send_a_sync_service_call_to_reset_the_turtle(self, timeout=5.0):
         reset_completed = self.ros_turtlesim_node.reset_turtle_service(timeout=timeout)
         if reset_completed is True:
             return True

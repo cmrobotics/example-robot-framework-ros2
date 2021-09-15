@@ -6,7 +6,7 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 from std_srvs.srv import Empty
-from turtlesim_robot_framework import SelfSpinningNode
+from example_robot_framework import SelfSpinningNode
 from turtlesim.action import RotateAbsolute
 
 
@@ -60,7 +60,6 @@ class TurtlesimExampleNode(SelfSpinningNode):
         print('rotating turtle')
         goal_orientation = RotateAbsolute.Goal()
         goal_orientation.theta = theta
-
         self._action_client.wait_for_server()
         self.action_result = None
         send_goal_future = self._action_client.send_goal_async(goal_orientation, feedback_callback=self.feedback_callback)

@@ -14,8 +14,8 @@ if __name__ == '__main__':
     try:
         robot.run(
             dummy_test,
-            test="Validate that the robot moves when commanded",
-            name="Testing the robot's movement for the first time",
+            test="Check if number is larger than threshold",
+            name="Checks if the addition of two numbers is larger than a specified threshold ",
             #log='NONE',
             outputdir=os.path.join(os.curdir, "reports"),
             variable=[],

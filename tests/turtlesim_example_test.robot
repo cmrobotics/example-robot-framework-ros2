@@ -21,5 +21,5 @@ Test that the turtle is moving, resetting and rotating
     Given That A Velocity Command Is Published To The Turtle    ${vel}
     And verify that the turtle moved
     Then send an async service call to reset the turtle
-    And send a service call to reset the turtle
+    And send a sync service call to reset the turtle
     And send an action to rotate the turtle                     ${orientation_rad}
