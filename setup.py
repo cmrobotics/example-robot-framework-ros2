@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'ros_robot_framework'
+package_name = 'example_robot_framework'
 
 setup(
     name=package_name,
@@ -10,17 +10,19 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/tests', ['tests/turtlesim_example_test.robot']),
+        ('share/' + package_name + '/translations', ['translations/TurtlesimExampleLibrary.py'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Vivian',
     maintainer_email='vivian.li@cm-robotics.com',
     description='TODO: Package description',
-    license='TODO: License declaration',
+    license='Coalescent Mobile Robotics',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_framework_integration_test = ros_robot_framework.run_test:main',
+            'robot_framework_turtlesim_test = example_robot_framework.scripts.turtlesim_run_test:main',
         ],
     },
 )

@@ -20,6 +20,10 @@ to let Python know where to find this package. Then, take a look at the help ins
 PYTHONPATH=${PYTHONPATH}:`pwd`/src ./scripts/dummy_testing --help
 ```
 
+### TurtleSim Example
+To run the Turtlesim example 
+
+
 ### Combining Reports
 To merge the multiple reports (the `.xml` files) use the `rebot` tool provided with the Robot Framework package.
 ```bash
