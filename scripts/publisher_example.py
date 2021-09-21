@@ -26,8 +26,8 @@ class MinimalTalker(SelfSpinningNode):
         self.subscriber_ = None
 
     def run_timer(self):
-        timer_period = 0.5  # seconds
-        self.timer = self.create_timer(timer_period, self.publish_data)
+        timer_period_seconds = 0.5  # seconds
+        self.timer = self.create_timer(timer_period_seconds, self.publish_data)
 
     def publish_data(self):
         msg = String()
@@ -47,9 +47,6 @@ class MinimalTalker(SelfSpinningNode):
 
 def main(args=None):
     rclpy.init(args=args)
-
-    #instance_self_spinning = SelfSpinningNode('self_spinning')
-
     minimal_talker = MinimalTalker()
     minimal_talker.setup()
     minimal_talker.publish_data()
@@ -57,14 +54,7 @@ def main(args=None):
 
     time.sleep(10)
 
-    # rclpy.spin_once(minimal_talker, timeout_sec=10.0)
-    # rclpy.spin(minimal_talker)
-
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
     minimal_talker.destroy_node()
-    #instance_self_spinning.destroy_node()
     rclpy.shutdown()
 
 
