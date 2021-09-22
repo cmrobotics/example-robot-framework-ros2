@@ -14,4 +14,6 @@ Check the product of two numbers
     ...                 documentation supports HTML formatting such as *bold text* and
     ...                 [https://www.youtube.com/watch?v=lXMskKTw3Bc|link with custom text]
 
-    Confirm the product of      ${num_a}    ${num_b}    ${product_ab}
+    Given confirm the product of      ${num_a}    ${num_b}    ${product_ab}
+    When confirm the product of         1   2   2
+    Then confirm the product of is not     2   3   90
