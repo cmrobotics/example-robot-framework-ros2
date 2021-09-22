@@ -19,8 +19,8 @@ pip install robotframework
 
 
 ### The required content and structure to build and install the package
-* `/<package_name>` - a directory with the same name as your package inside _src_. This directory will include all the custom python libraries and ROS2 nodes. 
-   * The `scripts` folder must be inside the directory with the same name as your package `/<package_name>/scripts` _(not inside 'src')_. Includes the file that can execute the Robot Framework tests with python, and other related files.
+* `/<package_name>` - a directory with the same name as your package _(not inside 'src')_. This directory will include all the custom python libraries and ROS2 nodes. 
+   * The `scripts` folder must be inside the directory with the same name as your package `/<package_name>/scripts`. Includes the file that can execute the Robot Framework tests with python, and other related files.
 * `tests` - folder includes all the Robot Framework tests _(*.robot files)_.
 * `translations` - folder include scripts which "translates" the custom python library to a Robot Framework readable library.
 * `resource/<package_name> file` - This is required for ROS2 to find your package
